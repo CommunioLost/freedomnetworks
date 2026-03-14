@@ -1,0 +1,13 @@
+{
+  "name": "freedom-networks",
+  "version": "1.0.0",
+  "description": "Freedom Networks Proxy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@titaniumnetwork-dev/ultraviolet": "latest",
+    "express": "^4.18.2"
+  }
+}
