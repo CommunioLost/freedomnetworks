@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;700&display=swap");
+
+* {
+    box-sizing: border-box;
+    font-family: "Prompt", sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: 0.3s;
+}
+
+body {
+    background: var(--bg);
+    color: var(--textcolor);
+    overflow: hidden;
+}
+
+/* Navbar - No corners */
+.side-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 70px;
+    background: var(--uibg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 30px;
+    z-index: 100;
+}
+
+.side-nav a {
+    color: var(--textcolor);
+    font-size: 22px;
+    text-decoration: none;
+}
+
+/* Homepage Logo & Text */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin-left: 70px;
+}
+
+.main-logo {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+.logo-text {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    text-transform: lowercase;
+    font-size: 64px;
+    margin-bottom: 30px;
+}
+
+/* Search Bar - Custom pill or rectangle */
+.search-container {
+    display: flex;
+    align-items: center;
+    background: var(--inputbg);
+    border: 2px solid var(--inputborder);
+    padding: 15px 25px;
+    width: 500px;
+    border-radius: 0px; /* Change to 50px for pill shape */
+}
+
+.search-container input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    width: 100%;
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+/* Proxy Embed Styles */
+#iframeid {
+    width: 100%;
+    height: calc(100vh - 50px);
+    border: none;
+}
