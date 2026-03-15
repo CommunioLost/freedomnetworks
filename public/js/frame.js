@@ -1,36 +1,43 @@
 function isUrl(val = "") {
-    if (/^http(s?):\/\//.test(val) || (val.includes(".") && val.slice(0, 1) !== " ")) return true;
-    return false;
+    return /^http(s?):\/\//.test(val) || (val.includes(".") && val.slice(0, 1) !== " ");
 }
 
 function loadNewPage(url) {
     const searchBar = document.getElementById("uv-address-searchbar");
+    const iframe = document.getElementById("iframeid");
+    
     searchBar.blur();
 
-    // Register Service Worker using standard UV paths
-    window.navigator.serviceWorker.register("/uv/sw.js", {
+    // Register UV Service Worker
+    window.navigator.serviceWorker.register("/uv.sw.js", {
         scope: __uv$config.prefix,
     });
 
-    if (!isUrl(url)) {
-        url = "https://www.google.com/search?q=" + url;
-    } else if (!(url.startsWith("https://") || url.startsWith("http://"))) {
-        url = "https://" + url;
+    // Formatting the URL
+    if (!isUrl(url)) url = "https://www.google.com/search?q=" + encodeURIComponent(url);
+    else if (!url.startsWith("http")) url = "https://" + url;
+
+    // Custom Redirections (The logic from your snippet)
+    if (url.includes("now.gg")) {
+        alert('Redirecting to nowgg.lol/hub for better compatibility.');
+        url = "https://nowgg.lol/hub";
     }
 
+    // Encode and load
     const urlEncoded = __uv$config.prefix + __uv$config.encodeUrl(url);
-    const iframe = document.getElementById("iframeid");
-    if (iframe) {
-        iframe.src = urlEncoded;
-    }
+    if (iframe) iframe.src = urlEncoded;
     searchBar.value = url;
 }
 
-// Ensure the iframe loads the last saved URL from session storage
 window.addEventListener("load", function () {
     const encodedUrl = sessionStorage.getItem("encodedUrl");
     const iframe = document.getElementById("iframeid");
+    const searchBar = document.getElementById("uv-address-searchbar");
+
     if (iframe && encodedUrl) {
         iframe.src = __uv$config.prefix + encodedUrl;
+        if (searchBar) {
+            searchBar.value = __uv$config.decodeUrl(encodedUrl);
+        }
     }
 });
