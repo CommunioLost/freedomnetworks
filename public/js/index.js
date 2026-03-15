@@ -1,16 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // HTTPS Check
-    if(window.location.protocol === 'http:'){
-        if (window.location.host !== 'localhost' && window.location.host !== '127.0.0.1'){
-            const searchInput = document.getElementById('uv-address');
-            if (searchInput) {
-                searchInput.disabled = true;
-                searchInput.placeholder = 'please turn on HTTPS to use this site!';
-            }
+    // 1. HTTPS Check
+    if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1'].includes(window.location.host)) {
+        const searchInput = document.getElementById('uv-address');
+        if (searchInput) {
+            searchInput.disabled = true;
+            searchInput.placeholder = 'please turn on HTTPS to use this site!';
         }
     }
 
-    // Splash Text Logic
+    // 2. Random Splash Text
     const randomtextstuff = [
         "MANGO MANGO 💀🙏",
         "DOWN WITH BLOCKERS",
@@ -26,7 +24,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const splashElement = document.getElementById('splash-text');
     if (splashElement) {
-        const randomItem = randomtextstuff[Math.floor(Math.random() * randomtextstuff.length)];
-        splashElement.innerText = randomItem;
+        splashElement.innerText = randomtextstuff[Math.floor(Math.random() * randomtextstuff.length)];
+    }
+
+    // 3. Search Form Logic
+    const form = document.getElementById('uv-form');
+    const address = document.getElementById('uv-address');
+
+    if (form && address) {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            let url = address.value.trim();
+            
+            // Basic search vs URL logic
+            if (!url.includes('.') || url.includes(' ')) {
+                url = 'https://www.google.com/search?q=' + encodeURIComponent(url);
+            } else if (!url.startsWith('http')) {
+                url = 'https://' + url;
+            }
+
+            // Save to session and redirect to the player/embed page
+            sessionStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
+            window.location.href = "/embed.html"; 
+        });
     }
 });
